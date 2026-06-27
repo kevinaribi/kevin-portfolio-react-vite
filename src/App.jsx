@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import './styles.css';
 
 const portfolioMarkup = String.raw`
