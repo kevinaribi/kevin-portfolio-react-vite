@@ -1,31 +1,22 @@
-# Kevin Portfolio Website — React + Vite V50.24
+# Kevin Portfolio Website — React + Vite V50.25 Aether
 
-Full recruiter-ready visual redesign based on the stable V50.20 content and the React/Vite V50.22 runtime fix.
-
-## Notes
-- Original portfolio content, wording, links, images, CV, QR, certificates, and selected works are preserved.
-- V50.24 focuses on full visual redesign, premium layout polish, responsive safety, live background motion, 3D hover/magnification, and smoother section reveal.
-- Scope of Work spacing/layout has been refined for recruiter readability.
+Aether Flow-inspired dark 3D hero background integration with recruiter-ready portfolio content preserved.
 
 ## Run locally
+
 ```bash
 npm install
 npm run dev
 ```
 
 ## Build
+
 ```bash
 npm run build
 ```
 
-## Deploy
-Vercel settings:
-- Framework Preset: Vite
-- Install Command: npm install
-- Build Command: npm run build
-- Output Directory: dist
+## Notes
 
-
-## V50.24
-
-V0-inspired light theme visual direction with pearl glass panels, recruiter-ready spacing, one-line desktop hero typography, soft 3D card motion, smooth magnification, and Vercel-safe dependencies.
+- Content, wording, assets, CV, QR, certificates, and selected works are preserved.
+- V50.25 adds a lightweight canvas network hero inspired by the Aether Flow reference.
+- Core Capabilities logos are transparent, cleaner, and aligned without small logo boxes.

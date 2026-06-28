@@ -18,7 +18,9 @@ const portfolioMarkup = String.raw`
     <nav class="nav"><a href="#about">About Me</a><a href="#experience">Experience</a><a href="#proof">Scope of Work</a><a href="#capabilities">Capabilities</a><a href="#certifications">Certificates</a><a href="#contact" class="nav-contact">Contact</a></nav>
   </header>
   <main>
-    <section id="home" class="hero hero-minimal section">
+    <section id="home" class="hero hero-minimal section hero-aether">
+      <canvas class="aether-canvas" aria-hidden="true"></canvas>
+      <div class="aether-vignette" aria-hidden="true"></div>
       <div class="hero-center">
         <h1 class="hero-name">Muhammad Kevin Aribi</h1>
         <p class="hero-subtitle">Corporate Operations &amp; BI Portfolio</p>
@@ -416,6 +418,163 @@ function initializePortfolioInteractions() {
 
   window.addEventListener("pointerleave", () => { glow.style.opacity = "0"; }, { passive: true });
   window.addEventListener("pointerenter", () => { glow.style.opacity = "1"; }, { passive: true });
+})();
+
+
+
+(() => {
+  const canvas = document.querySelector(".aether-canvas");
+  const hero = document.querySelector(".hero-aether");
+  if (!canvas || !hero) return;
+
+  const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduceMotion) {
+    canvas.style.display = "none";
+    return;
+  }
+
+  const ctx = canvas.getContext("2d", { alpha: true });
+  if (!ctx) return;
+
+  let width = 0;
+  let height = 0;
+  let dpr = 1;
+  let particles = [];
+  let raf = 0;
+  let running = true;
+  const mouse = { x: null, y: null, radius: 190 };
+
+  const palette = [
+    "rgba(170, 100, 255, .86)",
+    "rgba(33, 214, 255, .72)",
+    "rgba(255, 45, 70, .58)",
+  ];
+
+  function resize() {
+    const rect = hero.getBoundingClientRect();
+    width = Math.max(1, Math.floor(rect.width));
+    height = Math.max(1, Math.floor(rect.height));
+    dpr = Math.min(window.devicePixelRatio || 1, 1.6);
+    canvas.width = Math.floor(width * dpr);
+    canvas.height = Math.floor(height * dpr);
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    initParticles();
+  }
+
+  function initParticles() {
+    const base = Math.floor((width * height) / 16500);
+    const count = Math.max(34, Math.min(92, base));
+    particles = Array.from({ length: count }, (_, i) => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 0.34,
+      vy: (Math.random() - 0.5) * 0.34,
+      size: 1 + Math.random() * 1.7,
+      color: palette[i % palette.length],
+      phase: Math.random() * Math.PI * 2,
+    }));
+  }
+
+  function drawParticle(p) {
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+    ctx.fillStyle = p.color;
+    ctx.shadowColor = p.color;
+    ctx.shadowBlur = 12;
+    ctx.fill();
+    ctx.shadowBlur = 0;
+  }
+
+  function updateParticle(p, t) {
+    if (mouse.x !== null && mouse.y !== null) {
+      const dx = mouse.x - p.x;
+      const dy = mouse.y - p.y;
+      const dist = Math.hypot(dx, dy);
+      if (dist > 0 && dist < mouse.radius) {
+        const force = (mouse.radius - dist) / mouse.radius;
+        p.x -= (dx / dist) * force * 2.35;
+        p.y -= (dy / dist) * force * 2.35;
+      }
+    }
+
+    p.x += p.vx + Math.sin(t * 0.00035 + p.phase) * 0.08;
+    p.y += p.vy + Math.cos(t * 0.00030 + p.phase) * 0.08;
+
+    if (p.x < -20) p.x = width + 20;
+    if (p.x > width + 20) p.x = -20;
+    if (p.y < -20) p.y = height + 20;
+    if (p.y > height + 20) p.y = -20;
+
+    drawParticle(p);
+  }
+
+  function connect() {
+    const maxDistance = Math.min(190, Math.max(105, width / 8.4));
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const a = particles[i];
+        const b = particles[j];
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+        const dist = Math.hypot(dx, dy);
+        if (dist < maxDistance) {
+          const opacity = (1 - dist / maxDistance) * 0.38;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.strokeStyle = `rgba(185, 115, 255, ${opacity})`;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  function draw(t) {
+    if (running) {
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = "rgba(2, 4, 10, .34)";
+      ctx.fillRect(0, 0, width, height);
+      for (const p of particles) updateParticle(p, t);
+      connect();
+    }
+    raf = requestAnimationFrame(draw);
+  }
+
+  function setMouse(event) {
+    const rect = hero.getBoundingClientRect();
+    mouse.x = event.clientX - rect.left;
+    mouse.y = event.clientY - rect.top;
+  }
+
+  function clearMouse() {
+    mouse.x = null;
+    mouse.y = null;
+  }
+
+  let resizeTimer = 0;
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(resize, 160);
+  }, { passive: true });
+  hero.addEventListener("pointermove", setMouse, { passive: true });
+  hero.addEventListener("pointerleave", clearMouse, { passive: true });
+
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(([entry]) => {
+      running = entry.isIntersecting && document.visibilityState === "visible";
+    }, { threshold: 0.08 });
+    observer.observe(hero);
+  }
+
+  document.addEventListener("visibilitychange", () => {
+    running = document.visibilityState === "visible";
+  });
+
+  resize();
+  raf = requestAnimationFrame(draw);
 })();
 
 (() => {
