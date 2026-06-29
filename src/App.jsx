@@ -339,7 +339,7 @@ function App() {
               <article className="tool-card" key={tool.name}>
                 <div className="tool-logos">
                   {tool.logos.map((logo) => (
-                    <img src={logo} alt={tool.name} key={logo} loading="lazy" />
+                    <img src={logo} alt={tool.name} key={logo} loading="lazy" className={`logo-icon logo-${logo.replace(/\.[^/.]+$/, '')}`} />
                   ))}
                 </div>
                 <h3>{tool.name}</h3>
@@ -352,7 +352,7 @@ function App() {
             <div>
               {supportingTools.map(([name, logo]) => (
                 <span key={name}>
-                  <img src={logo} alt={name} loading="lazy" />
+                  <img src={logo} alt={name} loading="lazy" className={`support-logo logo-${logo.replace(/\.[^/.]+$/, '')}`} />
                   <small>{name}</small>
                 </span>
               ))}
@@ -399,7 +399,6 @@ function App() {
               <div className="qr-card">
                 <img src="cv-qr.png" alt="Scan for CV" loading="lazy" />
                 <strong>Scan for CV</strong>
-                <span>Works best once this website is hosted online.</span>
               </div>
               <div className="contact-links">
                 <a href="mailto:kevinaribi064@gmail.com">kevinaribi064@gmail.com</a>
