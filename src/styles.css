@@ -306,3 +306,44 @@ body{font-family:var(--font-primary);letter-spacing:.012em}
   .cert-count-2 a{height:auto;min-height:0}
   .cert-count-2 img{height:260px;max-width:130px}
 }
+
+/* V50.30 — live motion hero background */
+.hero-bg-card {
+  background: #070707;
+  isolation: isolate;
+  overflow: hidden;
+}
+.hero-liquid-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 0;
+  opacity: .98;
+  transform: translateZ(0);
+}
+.hero-bg-card::before,
+.hero-bg-card::after {
+  z-index: 1;
+  pointer-events: none;
+  opacity: .16;
+  mix-blend-mode: screen;
+}
+.hero-bg-card::before {
+  background: rgba(255,255,255,.65);
+  filter: blur(82px);
+}
+.hero-bg-card::after {
+  background: rgba(255,255,255,.24);
+  filter: blur(96px);
+}
+.hero-bg-card {
+  box-shadow: 0 50px 120px rgba(0,0,0,.52), inset 0 0 0 1px rgba(255,255,255,.045);
+}
+.hero-inner {
+  z-index: 3;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-liquid-canvas { opacity: .78; }
+}
