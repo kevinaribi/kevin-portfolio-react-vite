@@ -212,7 +212,7 @@ function HeroLiquidCanvas() {
     };
 
     const render = (time = 0) => {
-      const t = time * 0.00016;
+      const t = time * 0.00055;
       ctx.clearRect(0, 0, width, height);
 
       const base = ctx.createLinearGradient(0, 0, width, height);
@@ -250,16 +250,35 @@ function HeroLiquidCanvas() {
       ctx.restore();
 
       ctx.save();
-      ctx.globalAlpha = 0.18;
-      ctx.fillStyle = '#fff';
-      const gap = 78;
-      const shift = (Math.sin(t * 1.15) + 1) * 4;
-      for (let x = -gap; x < width + gap; x += gap) {
-        ctx.fillRect(x + shift, 0, 1, height);
-      }
-      for (let y = -gap; y < height + gap; y += gap) {
-        ctx.fillRect(0, y - shift, width, 1);
-      }
+      ctx.globalCompositeOperation = 'screen';
+      ctx.filter = 'blur(22px)';
+      ctx.lineCap = 'round';
+
+      const ribbon = (offset, alpha, lineWidth) => {
+        const gradient = ctx.createLinearGradient(0, height * 0.18, width, height * 0.86);
+        gradient.addColorStop(0, `rgba(255,255,255,${alpha * 0.15})`);
+        gradient.addColorStop(0.42, `rgba(255,255,255,${alpha})`);
+        gradient.addColorStop(0.72, `rgba(255,255,255,${alpha * 0.28})`);
+        gradient.addColorStop(1, 'rgba(255,255,255,0)');
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = lineWidth;
+        ctx.beginPath();
+        const startY = height * (0.34 + Math.sin(t + offset) * 0.055);
+        ctx.moveTo(-width * 0.1, startY);
+        ctx.bezierCurveTo(
+          width * (0.14 + Math.sin(t * 1.05 + offset) * 0.06),
+          height * (0.12 + Math.cos(t * 1.2 + offset) * 0.09),
+          width * (0.44 + Math.cos(t * 0.8 + offset) * 0.08),
+          height * (0.62 + Math.sin(t * 1.1 + offset) * 0.08),
+          width * 1.08,
+          height * (0.46 + Math.cos(t * 0.9 + offset) * 0.08)
+        );
+        ctx.stroke();
+      };
+
+      ribbon(0.4, 0.13, width * 0.08);
+      ribbon(2.25, 0.09, width * 0.11);
+      ribbon(4.1, 0.07, width * 0.07);
       ctx.restore();
 
       ctx.save();

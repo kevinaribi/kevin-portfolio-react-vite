@@ -307,7 +307,7 @@ body{font-family:var(--font-primary);letter-spacing:.012em}
   .cert-count-2 img{height:260px;max-width:130px}
 }
 
-/* V50.30 — live motion hero background */
+/* V50.31 — liquid motion hero background, no grid overlay */
 .hero-bg-card {
   background: #070707;
   isolation: isolate;
@@ -320,14 +320,14 @@ body{font-family:var(--font-primary);letter-spacing:.012em}
   height: 100%;
   display: block;
   z-index: 0;
-  opacity: .98;
+  opacity: 1;
   transform: translateZ(0);
 }
 .hero-bg-card::before,
 .hero-bg-card::after {
   z-index: 1;
   pointer-events: none;
-  opacity: .16;
+  opacity: .10;
   mix-blend-mode: screen;
 }
 .hero-bg-card::before {
@@ -346,4 +346,24 @@ body{font-family:var(--font-primary);letter-spacing:.012em}
 }
 @media (prefers-reduced-motion: reduce) {
   .hero-liquid-canvas { opacity: .78; }
+}
+
+/* V50.32 — remove old grid layer and keep hero motion clean */
+.visual-bg::after {
+  background-image: none !important;
+  opacity: 0 !important;
+}
+
+.hero-bg-card {
+  background: #070707 !important;
+}
+
+.hero-bg-card::before,
+.hero-bg-card::after {
+  opacity: .06 !important;
+}
+
+.hero-liquid-canvas {
+  opacity: 1 !important;
+  filter: saturate(1.05) contrast(1.06);
 }
