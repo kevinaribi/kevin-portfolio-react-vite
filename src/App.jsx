@@ -365,6 +365,7 @@ function App() {
 
 
   const [previewImage, setPreviewImage] = useState(null);
+  const [copiedText, setCopiedText] = useState('');
 
   useEffect(() => {
     if (!previewImage) return undefined;
@@ -386,7 +387,7 @@ function App() {
     setPreviewImage({ image, alt });
   };
 
-  const copyToClipboard = async (value) => {
+  const copyToClipboard = async (value, label) => {
     try {
       await navigator.clipboard.writeText(value);
     } catch {
@@ -400,6 +401,10 @@ function App() {
       document.execCommand('copy');
       document.body.removeChild(textarea);
     }
+
+    setCopiedText(`${label} copied to clipboard`);
+    window.clearTimeout(window.copyToastTimer);
+    window.copyToastTimer = window.setTimeout(() => setCopiedText(''), 1800);
   };
 
   return (
@@ -647,8 +652,8 @@ function App() {
                 <button className="form-submit" type="submit">Send Message</button>
               </form>
               <div className="contact-links">
-                <button type="button" onClick={() => copyToClipboard('kevinaribi064@gmail.com')}>kevinaribi064@gmail.com</button>
-                <button type="button" onClick={() => copyToClipboard('0812 9437 9119')}>0812 9437 9119</button>
+                <button type="button" onClick={() => copyToClipboard('kevinaribi064@gmail.com', 'Email')}>kevinaribi064@gmail.com</button>
+                <button type="button" onClick={() => copyToClipboard('0812 9437 9119', 'Phone number')}>0812 9437 9119</button>
                 <a href="https://www.linkedin.com/in/muhammad-kevin-aribi" target="_blank" rel="noopener noreferrer">LinkedIn Profile</a>
                 <a href="cv-muhammad-kevin-aribi.pdf" target="_blank" rel="noopener noreferrer">Download CV</a>
               </div>
@@ -656,6 +661,8 @@ function App() {
           </div>
         </section>
       </main>
+
+      {copiedText && <div className="copy-toast">{copiedText}</div>}
 
       {previewImage && (
         <div className="image-modal" role="dialog" aria-modal="true" onClick={() => setPreviewImage(null)}>
