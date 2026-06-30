@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './styles.css';
 
 const navItems = [
@@ -170,7 +170,7 @@ function useReveal() {
   }, []);
 }
 
-function HeroLiquidCanvas() {
+function HeroLiquidCanvas({ theme = 'night' }) {
   useEffect(() => {
     const canvas = document.querySelector('.hero-liquid-canvas');
     if (!canvas) return undefined;
@@ -197,9 +197,10 @@ function HeroLiquidCanvas() {
 
     const drawBlob = (x, y, radiusX, radiusY, alpha) => {
       const gradient = ctx.createRadialGradient(x, y, 0, x, y, Math.max(radiusX, radiusY));
-      gradient.addColorStop(0, `rgba(255,255,255,${alpha})`);
-      gradient.addColorStop(0.42, `rgba(255,255,255,${alpha * 0.38})`);
-      gradient.addColorStop(1, 'rgba(255,255,255,0)');
+      const blobColor = theme === 'day' ? '0,0,0' : '255,255,255';
+      gradient.addColorStop(0, `rgba(${blobColor},${alpha})`);
+      gradient.addColorStop(0.42, `rgba(${blobColor},${alpha * 0.38})`);
+      gradient.addColorStop(1, `rgba(${blobColor},0)`);
       ctx.save();
       ctx.translate(x, y);
       ctx.scale(radiusX / Math.max(radiusX, radiusY), radiusY / Math.max(radiusX, radiusY));
@@ -215,10 +216,17 @@ function HeroLiquidCanvas() {
       const t = time * 0.00055;
       ctx.clearRect(0, 0, width, height);
 
+      const isDay = theme === 'day';
       const base = ctx.createLinearGradient(0, 0, width, height);
-      base.addColorStop(0, '#070707');
-      base.addColorStop(0.5, '#111111');
-      base.addColorStop(1, '#030303');
+      if (isDay) {
+        base.addColorStop(0, '#f4f1ea');
+        base.addColorStop(0.5, '#e7e2d8');
+        base.addColorStop(1, '#fbfaf6');
+      } else {
+        base.addColorStop(0, '#070707');
+        base.addColorStop(0.5, '#111111');
+        base.addColorStop(1, '#030303');
+      }
       ctx.fillStyle = base;
       ctx.fillRect(0, 0, width, height);
 
@@ -256,10 +264,11 @@ function HeroLiquidCanvas() {
 
       const ribbon = (offset, alpha, lineWidth) => {
         const gradient = ctx.createLinearGradient(0, height * 0.18, width, height * 0.86);
-        gradient.addColorStop(0, `rgba(255,255,255,${alpha * 0.15})`);
-        gradient.addColorStop(0.42, `rgba(255,255,255,${alpha})`);
-        gradient.addColorStop(0.72, `rgba(255,255,255,${alpha * 0.28})`);
-        gradient.addColorStop(1, 'rgba(255,255,255,0)');
+        const ribbonColor = theme === 'day' ? '30,30,30' : '255,255,255';
+        gradient.addColorStop(0, `rgba(${ribbonColor},${alpha * 0.15})`);
+        gradient.addColorStop(0.42, `rgba(${ribbonColor},${alpha})`);
+        gradient.addColorStop(0.72, `rgba(${ribbonColor},${alpha * 0.28})`);
+        gradient.addColorStop(1, `rgba(${ribbonColor},0)`);
         ctx.strokeStyle = gradient;
         ctx.lineWidth = lineWidth;
         ctx.beginPath();
@@ -283,9 +292,15 @@ function HeroLiquidCanvas() {
 
       ctx.save();
       const shade = ctx.createRadialGradient(width * 0.52, height * 0.42, 0, width * 0.52, height * 0.42, width * 0.68);
-      shade.addColorStop(0, 'rgba(0,0,0,0)');
-      shade.addColorStop(0.78, 'rgba(0,0,0,0.24)');
-      shade.addColorStop(1, 'rgba(0,0,0,0.72)');
+      if (theme === 'day') {
+        shade.addColorStop(0, 'rgba(255,255,255,0)');
+        shade.addColorStop(0.78, 'rgba(255,255,255,0.08)');
+        shade.addColorStop(1, 'rgba(255,255,255,0.46)');
+      } else {
+        shade.addColorStop(0, 'rgba(0,0,0,0)');
+        shade.addColorStop(0.78, 'rgba(0,0,0,0.24)');
+        shade.addColorStop(1, 'rgba(0,0,0,0.72)');
+      }
       ctx.fillStyle = shade;
       ctx.fillRect(0, 0, width, height);
       ctx.restore();
@@ -302,7 +317,7 @@ function HeroLiquidCanvas() {
       window.cancelAnimationFrame(rafId);
       window.removeEventListener('resize', resize);
     };
-  }, []);
+  }, [theme]);
 
   return <canvas className="hero-liquid-canvas" aria-hidden="true" />;
 }
@@ -310,8 +325,22 @@ function HeroLiquidCanvas() {
 function App() {
   useReveal();
 
+  const [theme, setTheme] = useState(() => {
+    if (typeof window === 'undefined') return 'night';
+    return window.localStorage.getItem('portfolio-theme') || 'night';
+  });
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    window.localStorage.setItem('portfolio-theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((current) => (current === 'night' ? 'day' : 'night'));
+  };
+
   return (
-    <div className="site-shell">
+    <div className="site-shell" data-theme={theme}>
       <div className="visual-bg" aria-hidden="true">
         <span className="blur blur-one" />
         <span className="blur blur-two" />
@@ -327,6 +356,15 @@ function App() {
           </span>
         </a>
         <nav className="nav" aria-label="Navigation">
+          <button
+            type="button"
+            className="theme-toggle"
+            onClick={toggleTheme}
+            aria-label={theme === 'night' ? 'Switch to day mode' : 'Switch to night mode'}
+          >
+            <span className={theme === 'day' ? 'is-active' : ''}>☀</span>
+            <span className={theme === 'night' ? 'is-active' : ''}>☾</span>
+          </button>
           {navItems.map(([label, href]) => (
             <a key={label} href={href} className={label === 'Contact' ? 'nav-pill' : ''}>
               {label}
@@ -338,7 +376,7 @@ function App() {
       <main>
         <section id="home" className="hero section-pad">
           <div className="hero-bg-card" aria-hidden="true">
-            <HeroLiquidCanvas />
+            <HeroLiquidCanvas theme={theme} />
           </div>
           <div className="hero-inner reveal is-visible">
             <p className="eyebrow">Corporate Operations &amp; BI Portfolio</p>

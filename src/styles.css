@@ -564,3 +564,275 @@ body{font-family:var(--font-primary);letter-spacing:.012em}
     max-width: 132px;
   }
 }
+
+
+/* V50.34 — Day / Night theme toggle */
+.theme-toggle {
+  width: 72px;
+  height: 40px;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 999px;
+  background: rgba(255,255,255,.045);
+  color: rgba(255,255,255,.72);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 4px;
+  cursor: pointer;
+  transition: background .28s var(--ease), border-color .28s var(--ease), transform .28s var(--ease), color .28s var(--ease);
+}
+
+.theme-toggle:hover {
+  transform: translateY(-2px);
+  background: rgba(255,255,255,.075);
+  border-color: rgba(255,255,255,.18);
+}
+
+.theme-toggle span {
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-size: .88rem;
+  line-height: 1;
+  opacity: .58;
+  transition: background .28s var(--ease), color .28s var(--ease), opacity .28s var(--ease), transform .28s var(--ease);
+}
+
+.theme-toggle span.is-active {
+  opacity: 1;
+  color: #050505;
+  background: #ffffff;
+  transform: scale(1.02);
+}
+
+html[data-theme="day"] {
+  background: #eeeae2;
+}
+
+html[data-theme="day"] body {
+  background: #eeeae2;
+  color: #111111;
+}
+
+.site-shell[data-theme="day"] {
+  --bg: #eeeae2;
+  --surface: #f7f4ee;
+  --surface-2: #ffffff;
+  --text: #101010;
+  --muted: #5d5d5d;
+  --line: rgba(0,0,0,.12);
+  --soft: rgba(0,0,0,.04);
+  background: radial-gradient(circle at 14% 5%, rgba(255,255,255,.95), transparent 34%), #eeeae2;
+  color: #101010;
+}
+
+.site-shell[data-theme="day"] .visual-bg {
+  background: #eeeae2;
+}
+
+.site-shell[data-theme="day"] .visual-bg::before {
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.8),transparent 30%,transparent 70%,rgba(0,0,0,.04)),
+    radial-gradient(circle at 50% -10%,rgba(255,255,255,.95),transparent 40%);
+}
+
+.site-shell[data-theme="day"] .blur {
+  background: rgba(0,0,0,.10);
+  filter: blur(80px);
+}
+
+.site-shell[data-theme="day"] .grain {
+  opacity: .10;
+  mix-blend-mode: multiply;
+}
+
+.site-shell[data-theme="day"] .site-header {
+  background: rgba(246,243,237,.76);
+  border-color: rgba(0,0,0,.12);
+  box-shadow: 0 24px 70px rgba(0,0,0,.10);
+}
+
+.site-shell[data-theme="day"] .brand img {
+  border-color: rgba(0,0,0,.10);
+}
+
+.site-shell[data-theme="day"] .brand strong,
+.site-shell[data-theme="day"] .nav a {
+  color: #111111;
+}
+
+.site-shell[data-theme="day"] .brand small,
+.site-shell[data-theme="day"] .nav a:not(.nav-pill) {
+  color: rgba(0,0,0,.62);
+}
+
+.site-shell[data-theme="day"] .nav a:not(.nav-pill):hover {
+  color: #000000;
+  background: rgba(0,0,0,.045);
+}
+
+.site-shell[data-theme="day"] .nav-pill {
+  background: #111111;
+  color: #ffffff;
+  box-shadow: 0 16px 34px rgba(0,0,0,.12);
+}
+
+.site-shell[data-theme="day"] .theme-toggle {
+  background: rgba(0,0,0,.045);
+  border-color: rgba(0,0,0,.10);
+  color: rgba(0,0,0,.62);
+}
+
+.site-shell[data-theme="day"] .theme-toggle:hover {
+  background: rgba(0,0,0,.07);
+  border-color: rgba(0,0,0,.16);
+}
+
+.site-shell[data-theme="day"] .theme-toggle span.is-active {
+  background: #111111;
+  color: #ffffff;
+}
+
+.site-shell[data-theme="day"] .hero-bg-card {
+  background: #f1eee7 !important;
+  box-shadow: 0 50px 110px rgba(0,0,0,.16), inset 0 0 0 1px rgba(0,0,0,.08);
+}
+
+.site-shell[data-theme="day"] .hero-bg-card::before,
+.site-shell[data-theme="day"] .hero-bg-card::after {
+  opacity: .05;
+  mix-blend-mode: multiply;
+}
+
+.site-shell[data-theme="day"] .hero h1,
+.site-shell[data-theme="day"] .section-title p,
+.site-shell[data-theme="day"] .section-title h2 {
+  color: #111111;
+}
+
+.site-shell[data-theme="day"] .eyebrow,
+.site-shell[data-theme="day"] .scroll-cue i,
+.site-shell[data-theme="day"] .cert-tags span {
+  background: rgba(255,255,255,.58);
+  border-color: rgba(0,0,0,.14);
+  color: rgba(0,0,0,.72);
+}
+
+.site-shell[data-theme="day"] .scroll-cue,
+.site-shell[data-theme="day"] .about-copy,
+.site-shell[data-theme="day"] .experience-body p,
+.site-shell[data-theme="day"] .responsibility-list p,
+.site-shell[data-theme="day"] .output-card p,
+.site-shell[data-theme="day"] .tool-card p,
+.site-shell[data-theme="day"] .cert-card p {
+  color: rgba(0,0,0,.62);
+}
+
+.site-shell[data-theme="day"] .about-cards article,
+.site-shell[data-theme="day"] .metric-row article,
+.site-shell[data-theme="day"] .tool-card,
+.site-shell[data-theme="day"] .cert-card,
+.site-shell[data-theme="day"] .contact-panel,
+.site-shell[data-theme="day"] .supporting,
+.site-shell[data-theme="day"] .responsibility-list article,
+.site-shell[data-theme="day"] .experience-card,
+.site-shell[data-theme="day"] .output-card,
+.site-shell[data-theme="day"] .work-card,
+.site-shell[data-theme="day"] .role-chip,
+.site-shell[data-theme="day"] .portrait-panel,
+.site-shell[data-theme="day"] .about-copy {
+  background: rgba(255,255,255,.52);
+  border-color: rgba(0,0,0,.11);
+  box-shadow: 0 30px 90px rgba(0,0,0,.08);
+}
+
+.site-shell[data-theme="day"] .about-cards article:hover,
+.site-shell[data-theme="day"] .metric-row article:hover,
+.site-shell[data-theme="day"] .responsibility-list article:hover,
+.site-shell[data-theme="day"] .cert-card:hover {
+  background: rgba(255,255,255,.72);
+  border-color: rgba(0,0,0,.16);
+}
+
+.site-shell[data-theme="day"] .about-cards span,
+.site-shell[data-theme="day"] .experience-meta span,
+.site-shell[data-theme="day"] .outputs-label,
+.site-shell[data-theme="day"] .supporting > p,
+.site-shell[data-theme="day"] .cert-tags span {
+  color: rgba(0,0,0,.54);
+}
+
+.site-shell[data-theme="day"] .about-cards small,
+.site-shell[data-theme="day"] .supporting small,
+.site-shell[data-theme="day"] .experience-meta strong,
+.site-shell[data-theme="day"] .cert-card strong,
+.site-shell[data-theme="day"] .metric-row span,
+.site-shell[data-theme="day"] .role-chip span {
+  color: rgba(0,0,0,.68);
+}
+
+.site-shell[data-theme="day"] .about-actions a,
+.site-shell[data-theme="day"] .scope-link,
+.site-shell[data-theme="day"] .contact-links a {
+  background: rgba(255,255,255,.58);
+  border-color: rgba(0,0,0,.12);
+  color: rgba(0,0,0,.74);
+}
+
+.site-shell[data-theme="day"] .about-actions a:hover,
+.site-shell[data-theme="day"] .contact-links a:hover {
+  background: #111111;
+  color: #ffffff;
+}
+
+.site-shell[data-theme="day"] .ticker::before,
+.site-shell[data-theme="day"] .ticker::after {
+  background: linear-gradient(90deg,#eeeae2,transparent);
+}
+
+.site-shell[data-theme="day"] .ticker::after {
+  background: linear-gradient(270deg,#eeeae2,transparent);
+}
+
+.site-shell[data-theme="day"] .ticker span {
+  color: rgba(0,0,0,.72);
+}
+
+.site-shell[data-theme="day"] .supporting span {
+  background: rgba(255,255,255,.48);
+  border-color: rgba(0,0,0,.10);
+}
+
+.site-shell[data-theme="day"] .supporting span:hover {
+  background: rgba(255,255,255,.78);
+}
+
+.site-shell[data-theme="day"] .qr-card {
+  background: #111111;
+  color: #ffffff;
+}
+
+.site-shell[data-theme="day"] .qr-card img {
+  background: #ffffff;
+}
+
+@media (max-width: 1040px) {
+  .theme-toggle {
+    width: 66px;
+    height: 38px;
+  }
+
+  .theme-toggle span {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+@media (max-width: 720px) {
+  .theme-toggle {
+    order: -1;
+  }
+}
