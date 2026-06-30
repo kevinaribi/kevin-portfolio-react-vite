@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './styles.css';
 
 const navItems = [
@@ -334,6 +334,34 @@ function HeroLiquidCanvas({ theme = 'night' }) {
 
 function App() {
   useReveal();
+  const [formStatus, setFormStatus] = useState('idle');
+
+  const handleContactSubmit = async (event) => {
+    event.preventDefault();
+    setFormStatus('sending');
+
+    const formData = new FormData(event.currentTarget);
+    formData.append('access_key', '02a11c87-fa7a-40ba-bc4c-cd1fc44b4f61');
+    formData.append('subject', 'Portfolio Contact Form');
+    formData.append('from_name', 'Muhammad Kevin Aribi Portfolio');
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData,
+      });
+      const result = await response.json();
+
+      if (result.success) {
+        event.currentTarget.reset();
+        setFormStatus('success');
+      } else {
+        setFormStatus('error');
+      }
+    } catch (error) {
+      setFormStatus('error');
+    }
+  };
 
   return (
     <div className="site-shell">
@@ -551,19 +579,37 @@ function App() {
 
         <section id="contact" className="section-pad contact">
           <div className="contact-panel reveal">
-            <div>
+            <div className="contact-main">
               <div className="section-title contact-title">
                 <p>Seeking Opportunities</p>
               </div>
-              <div className="role-list">
+              <div className="role-list role-list-grid">
                 {roles.map((role) => <span key={role}>{role}</span>)}
               </div>
+              <form className="message-form" onSubmit={handleContactSubmit}>
+                <div className="form-row">
+                  <label>
+                    <span>Name</span>
+                    <input type="text" name="name" placeholder="Name" required />
+                  </label>
+                  <label>
+                    <span>Email</span>
+                    <input type="email" name="email" placeholder="Email" required />
+                  </label>
+                </div>
+                <label>
+                  <span>Message</span>
+                  <textarea name="message" placeholder="Message" rows="5" required />
+                </label>
+                <input type="checkbox" name="botcheck" className="hidden-field" tabIndex="-1" autoComplete="off" />
+                <button type="submit" disabled={formStatus === 'sending'}>
+                  {formStatus === 'sending' ? 'Sending...' : 'Send Message'}
+                </button>
+                {formStatus === 'success' && <p className="form-status">Message sent.</p>}
+                {formStatus === 'error' && <p className="form-status">Message failed.</p>}
+              </form>
             </div>
-            <div className="contact-side">
-              <div className="qr-card">
-                <img src="cv-qr.png" alt="Scan for CV" loading="lazy" />
-                <strong>Scan for CV</strong>
-              </div>
+            <div className="contact-side contact-side-no-qr">
               <div className="contact-links">
                 <a href="mailto:kevinaribi064@gmail.com">kevinaribi064@gmail.com</a>
                 <a href="tel:081294379119">0812 9437 9119</a>

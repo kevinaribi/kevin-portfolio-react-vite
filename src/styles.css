@@ -564,3 +564,158 @@ body{font-family:var(--font-primary);letter-spacing:.012em}
     max-width: 132px;
   }
 }
+
+/* V50.38 — QR card removed from contact section */
+.contact-side-no-qr {
+  grid-template-columns: 1fr;
+}
+
+.contact-side-no-qr .contact-links {
+  align-content: stretch;
+}
+
+/* V50.39 — Web3Forms contact message form */
+.contact-panel {
+  grid-template-columns: 1.35fr .65fr;
+  align-items: stretch;
+}
+
+.contact-main {
+  display: grid;
+  gap: 22px;
+}
+
+.contact-title p {
+  white-space: nowrap;
+  font-size: clamp(3.2rem, 6.8vw, 7rem);
+}
+
+.role-list-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.role-list-grid span {
+  display: grid;
+  min-height: 54px;
+  place-items: center;
+  text-align: center;
+}
+
+.message-form {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: rgba(255,255,255,.045);
+  box-shadow: 0 26px 76px rgba(0,0,0,.18);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.message-form label {
+  display: grid;
+  gap: 8px;
+}
+
+.message-form label span {
+  color: rgba(255,255,255,.64);
+  font-size: .72rem;
+  font-weight: 850;
+  letter-spacing: .105em;
+  text-transform: uppercase;
+}
+
+.message-form input,
+.message-form textarea {
+  width: 100%;
+  border: 1px solid rgba(255,255,255,.11);
+  border-radius: 18px;
+  background: rgba(255,255,255,.055);
+  color: var(--text);
+  outline: none;
+  padding: 14px 15px;
+  font-weight: 650;
+  transition: border-color .24s var(--ease), background .24s var(--ease), box-shadow .24s var(--ease);
+}
+
+.message-form textarea {
+  resize: vertical;
+  min-height: 132px;
+}
+
+.message-form input::placeholder,
+.message-form textarea::placeholder {
+  color: rgba(255,255,255,.34);
+}
+
+.message-form input:focus,
+.message-form textarea:focus {
+  border-color: rgba(255,255,255,.28);
+  background: rgba(255,255,255,.075);
+  box-shadow: 0 0 0 4px rgba(255,255,255,.055);
+}
+
+.message-form button {
+  border: 0;
+  border-radius: 999px;
+  background: #f4f4ef;
+  color: #111;
+  cursor: pointer;
+  font-weight: 900;
+  padding: 15px 18px;
+  transition: transform .24s var(--ease), background .24s var(--ease), opacity .24s var(--ease);
+}
+
+.message-form button:hover {
+  transform: translateY(-2px);
+  background: #ffffff;
+}
+
+.message-form button:disabled {
+  cursor: wait;
+  opacity: .72;
+  transform: none;
+}
+
+.form-status {
+  margin: 0;
+  color: rgba(255,255,255,.64);
+  font-size: .86rem;
+  font-weight: 700;
+}
+
+.hidden-field {
+  display: none !important;
+}
+
+@media (max-width: 1040px) {
+  .contact-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .role-list-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .contact-title p {
+    white-space: normal;
+    font-size: clamp(2.65rem, 13vw, 4.8rem);
+  }
+
+  .role-list-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
