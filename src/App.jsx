@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import './styles.css';
 
 const navItems = [
@@ -335,22 +335,8 @@ function HeroLiquidCanvas({ theme = 'night' }) {
 function App() {
   useReveal();
 
-  const [theme, setTheme] = useState(() => {
-    if (typeof window === 'undefined') return 'night';
-    return window.localStorage.getItem('portfolio-theme') || 'night';
-  });
-
-  useEffect(() => {
-    document.documentElement.dataset.theme = theme;
-    window.localStorage.setItem('portfolio-theme', theme);
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme((current) => (current === 'night' ? 'day' : 'night'));
-  };
-
   return (
-    <div className="site-shell" data-theme={theme}>
+    <div className="site-shell">
       <div className="visual-bg" aria-hidden="true">
         <span className="blur blur-one" />
         <span className="blur blur-two" />
@@ -366,15 +352,6 @@ function App() {
           </span>
         </a>
         <nav className="nav" aria-label="Navigation">
-          <button
-            type="button"
-            className="theme-toggle"
-            onClick={toggleTheme}
-            aria-label={theme === 'night' ? 'Switch to day mode' : 'Switch to night mode'}
-          >
-            <span className={theme === 'day' ? 'is-active' : ''}>☀</span>
-            <span className={theme === 'night' ? 'is-active' : ''}>☾</span>
-          </button>
           {navItems.map(([label, href]) => (
             <a key={label} href={href} className={label === 'Contact' ? 'nav-pill' : ''}>
               {label}
@@ -386,7 +363,7 @@ function App() {
       <main>
         <section id="home" className="hero section-pad">
           <div className="hero-bg-card" aria-hidden="true">
-            <HeroLiquidCanvas theme={theme} />
+            <HeroLiquidCanvas />
           </div>
           <div className="hero-inner reveal is-visible">
             <p className="eyebrow">Corporate Operations &amp; BI Portfolio</p>
