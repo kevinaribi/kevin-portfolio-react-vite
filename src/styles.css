@@ -887,3 +887,113 @@ html[data-theme="day"] body {
 .site-shell[data-theme="day"] .work-card:hover img {
   filter: grayscale(0) contrast(1.03) saturate(1);
 }
+
+/* V50.36 — Day mode parity with night mode */
+.site-shell[data-theme="day"] .visual-bg {
+  background:
+    radial-gradient(circle at 18% 6%, rgba(255,255,255,.88), transparent 34%),
+    radial-gradient(circle at 82% 88%, rgba(214,205,190,.44), transparent 28%),
+    #eee9df;
+}
+
+.site-shell[data-theme="day"] .hero-bg-card {
+  background: linear-gradient(135deg, #f6f2ea 0%, #ece5d9 58%, #faf7f1 100%) !important;
+  border-color: rgba(0,0,0,.09);
+  box-shadow:
+    0 34px 90px rgba(0,0,0,.12),
+    inset 0 0 0 1px rgba(255,255,255,.74),
+    inset 0 -60px 120px rgba(255,255,255,.22);
+}
+
+.site-shell[data-theme="day"] .hero-bg-card::before {
+  background: rgba(255,255,255,.92);
+  filter: blur(62px);
+  opacity: .62;
+}
+
+.site-shell[data-theme="day"] .hero-bg-card::after {
+  background: rgba(166, 153, 137, .22);
+  filter: blur(86px);
+  opacity: .54;
+}
+
+.site-shell[data-theme="day"] .hero-liquid-canvas {
+  opacity: 1;
+  mix-blend-mode: normal;
+  filter: contrast(1.08) saturate(.96);
+}
+
+.site-shell[data-theme="day"] .hero h1 {
+  color: #0f0f0f;
+  text-shadow:
+    0 1px 0 rgba(255,255,255,.92),
+    0 16px 44px rgba(255,255,255,.54),
+    0 24px 78px rgba(0,0,0,.18);
+}
+
+.site-shell[data-theme="day"] .hero-inner {
+  text-shadow: 0 8px 24px rgba(255,255,255,.14);
+}
+
+.site-shell[data-theme="day"] .eyebrow {
+  background: rgba(255,255,255,.74);
+  border-color: rgba(0,0,0,.14);
+  color: rgba(0,0,0,.74);
+  box-shadow: 0 14px 26px rgba(0,0,0,.08);
+}
+
+.site-shell[data-theme="day"] .scroll-cue span {
+  color: rgba(0,0,0,.68);
+}
+
+.site-shell[data-theme="day"] .scroll-cue i {
+  background: rgba(255,255,255,.74);
+  border-color: rgba(0,0,0,.12);
+  box-shadow: 0 12px 24px rgba(0,0,0,.08);
+}
+
+.site-shell[data-theme="day"] .responsibility-list article {
+  background: linear-gradient(180deg, rgba(255,255,255,.68), rgba(255,255,255,.56));
+  border-color: rgba(0,0,0,.12);
+  box-shadow: 0 26px 70px rgba(0,0,0,.08);
+}
+
+.site-shell[data-theme="day"] .responsibility-list article:hover {
+  background: linear-gradient(180deg, rgba(255,255,255,.82), rgba(255,255,255,.68));
+  border-color: rgba(0,0,0,.16);
+}
+
+.site-shell[data-theme="day"] .responsibility-list span {
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  color: #111111;
+  background: rgba(255,255,255,.84);
+  border: 1px solid rgba(0,0,0,.14);
+  box-shadow: 0 12px 24px rgba(0,0,0,.08);
+}
+
+.site-shell[data-theme="day"] .output-card span {
+  color: rgba(0,0,0,.72);
+}
+
+.site-shell[data-theme="day"] .outputs-label {
+  color: rgba(0,0,0,.64);
+}
+
+.site-shell[data-theme="day"] .output-card,
+.site-shell[data-theme="day"] .work-card,
+.site-shell[data-theme="day"] .cert-card,
+.site-shell[data-theme="day"] .tool-card,
+.site-shell[data-theme="day"] .supporting,
+.site-shell[data-theme="day"] .experience-card,
+.site-shell[data-theme="day"] .about-cards article,
+.site-shell[data-theme="day"] .metric-row article,
+.site-shell[data-theme="day"] .contact-panel,
+.site-shell[data-theme="day"] .about-copy,
+.site-shell[data-theme="day"] .portrait-panel,
+.site-shell[data-theme="day"] .role-chip {
+  backdrop-filter: blur(18px);
+}
