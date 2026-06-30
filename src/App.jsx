@@ -363,6 +363,45 @@ function App() {
     }
   };
 
+
+  const [previewImage, setPreviewImage] = useState(null);
+
+  useEffect(() => {
+    if (!previewImage) return undefined;
+
+    const handleEscape = (event) => {
+      if (event.key === 'Escape') setPreviewImage(null);
+    };
+
+    document.body.classList.add('modal-open');
+    window.addEventListener('keydown', handleEscape);
+
+    return () => {
+      document.body.classList.remove('modal-open');
+      window.removeEventListener('keydown', handleEscape);
+    };
+  }, [previewImage]);
+
+  const openPreview = (image, alt) => {
+    setPreviewImage({ image, alt });
+  };
+
+  const copyToClipboard = async (value) => {
+    try {
+      await navigator.clipboard.writeText(value);
+    } catch {
+      const textarea = document.createElement('textarea');
+      textarea.value = value;
+      textarea.setAttribute('readonly', '');
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+    }
+  };
+
   return (
     <div className="site-shell">
       <div className="visual-bg" aria-hidden="true">
@@ -396,8 +435,8 @@ function App() {
           <div className="hero-inner reveal is-visible">
             <p className="eyebrow">Corporate Operations &amp; BI Portfolio</p>
             <h1>Muhammad Kevin Aribi</h1>
-            <a href="#about" className="scroll-cue" aria-label="Scroll to About Me">
-              <span>Scroll to About Me</span>
+            <a href="#about" className="scroll-cue" aria-label="Scroll to know about me">
+              <span>Scroll to know about me</span>
               <i />
             </a>
           </div>
@@ -470,10 +509,10 @@ function App() {
                       </summary>
                       <div className="work-grid">
                         {item.works.map(([caption, image]) => (
-                          <a href={image} target="_blank" rel="noopener noreferrer" className="work-card" key={image}>
+                          <button type="button" className="work-card" key={image} onClick={() => openPreview(image, caption)}>
                             <img src={image} alt={caption} loading="lazy" />
                             <span>{caption}</span>
-                          </a>
+                          </button>
                         ))}
                       </div>
                     </details>
@@ -501,14 +540,14 @@ function App() {
             <div className="outputs-wrap">
               <p className="outputs-label">Selected Outputs</p>
               {outputs.map((item) => (
-                <a href={item.image} target="_blank" rel="noopener noreferrer" className="output-card" key={item.number}>
+                <button type="button" className="output-card" key={item.number} onClick={() => openPreview(item.image, item.title)}>
                   <img src={item.image} alt={item.title} loading="lazy" />
                   <div>
                     <span>{item.number}</span>
                     <h3>{item.title}</h3>
                     <p>{item.description}</p>
                   </div>
-                </a>
+                </button>
               ))}
             </div>
           </div>
@@ -567,9 +606,9 @@ function App() {
                 <p>{cert.description}</p>
                 <div className={`cert-images cert-count-${cert.images.length}`}>
                   {cert.images.map((image) => (
-                    <a href={image} target="_blank" rel="noopener noreferrer" key={image}>
+                    <button type="button" key={image} onClick={() => openPreview(image, cert.title)}>
                       <img src={image} alt={cert.title} loading="lazy" />
-                    </a>
+                    </button>
                   ))}
                 </div>
               </article>
@@ -591,7 +630,6 @@ function App() {
               <form className="message-form" action="https://api.web3forms.com/submit" method="POST">
                 <input type="hidden" name="access_key" value="02a11c87-fa7a-40ba-bc4c-cd1fc44b4f61" />
                 <input type="hidden" name="subject" value="New portfolio message from Muhammad Kevin Aribi website" />
-                <input type="checkbox" name="botcheck" className="hidden" tabIndex="-1" autoComplete="off" />
                 <div className="form-row">
                   <label className="form-field">
                     <span>Name</span>
@@ -609,8 +647,8 @@ function App() {
                 <button className="form-submit" type="submit">Send Message</button>
               </form>
               <div className="contact-links">
-                <a href="mailto:kevinaribi064@gmail.com">kevinaribi064@gmail.com</a>
-                <a href="tel:081294379119">0812 9437 9119</a>
+                <button type="button" onClick={() => copyToClipboard('kevinaribi064@gmail.com')}>kevinaribi064@gmail.com</button>
+                <button type="button" onClick={() => copyToClipboard('0812 9437 9119')}>0812 9437 9119</button>
                 <a href="https://www.linkedin.com/in/muhammad-kevin-aribi" target="_blank" rel="noopener noreferrer">LinkedIn Profile</a>
                 <a href="cv-muhammad-kevin-aribi.pdf" target="_blank" rel="noopener noreferrer">Download CV</a>
               </div>
@@ -618,6 +656,17 @@ function App() {
           </div>
         </section>
       </main>
+
+      {previewImage && (
+        <div className="image-modal" role="dialog" aria-modal="true" onClick={() => setPreviewImage(null)}>
+          <button type="button" className="image-modal-close" aria-label="Close preview" onClick={() => setPreviewImage(null)}>
+            ×
+          </button>
+          <div className="image-modal-frame" onClick={(event) => event.stopPropagation()}>
+            <img src={previewImage.image} alt={previewImage.alt} />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
