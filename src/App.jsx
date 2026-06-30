@@ -198,9 +198,9 @@ function HeroLiquidCanvas({ theme = 'night' }) {
     const drawBlob = (x, y, radiusX, radiusY, alpha, rgb) => {
       const gradient = ctx.createRadialGradient(x, y, 0, x, y, Math.max(radiusX, radiusY));
       const blobColor = rgb || (theme === 'day' ? '56,52,48' : '255,255,255');
-      gradient.addColorStop(0, `rgba(,)`);
-      gradient.addColorStop(0.42, `rgba(,-e)`);
-      gradient.addColorStop(1, `rgba(,0)`);
+      gradient.addColorStop(0, `rgba(${blobColor},${alpha})`);
+      gradient.addColorStop(0.42, `rgba(${blobColor},${alpha * 0.38})`);
+      gradient.addColorStop(1, `rgba(${blobColor},0)`);
       ctx.save();
       ctx.translate(x, y);
       ctx.scale(radiusX / Math.max(radiusX, radiusY), radiusY / Math.max(radiusX, radiusY));
