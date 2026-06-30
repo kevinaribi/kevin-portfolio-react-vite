@@ -579,37 +579,35 @@ function App() {
 
         <section id="contact" className="section-pad contact">
           <div className="contact-panel reveal">
-            <div className="contact-main">
+            <div>
               <div className="section-title contact-title">
                 <p>Seeking Opportunities</p>
               </div>
-              <div className="role-list role-list-grid">
+              <div className="role-list">
                 {roles.map((role) => <span key={role}>{role}</span>)}
               </div>
-              <form className="message-form" onSubmit={handleContactSubmit}>
+            </div>
+            <div className="contact-side">
+              <form className="message-form" action="https://api.web3forms.com/submit" method="POST">
+                <input type="hidden" name="access_key" value="02a11c87-fa7a-40ba-bc4c-cd1fc44b4f61" />
+                <input type="hidden" name="subject" value="New portfolio message from Muhammad Kevin Aribi website" />
+                <input type="checkbox" name="botcheck" className="hidden" tabIndex="-1" autoComplete="off" />
                 <div className="form-row">
-                  <label>
+                  <label className="form-field">
                     <span>Name</span>
                     <input type="text" name="name" placeholder="Name" required />
                   </label>
-                  <label>
+                  <label className="form-field">
                     <span>Email</span>
                     <input type="email" name="email" placeholder="Email" required />
                   </label>
                 </div>
-                <label>
+                <label className="form-field">
                   <span>Message</span>
-                  <textarea name="message" placeholder="Message" rows="5" required />
+                  <textarea name="message" placeholder="Message" required />
                 </label>
-                <input type="checkbox" name="botcheck" className="hidden-field" tabIndex="-1" autoComplete="off" />
-                <button type="submit" disabled={formStatus === 'sending'}>
-                  {formStatus === 'sending' ? 'Sending...' : 'Send Message'}
-                </button>
-                {formStatus === 'success' && <p className="form-status">Message sent.</p>}
-                {formStatus === 'error' && <p className="form-status">Message failed.</p>}
+                <button className="form-submit" type="submit">Send Message</button>
               </form>
-            </div>
-            <div className="contact-side contact-side-no-qr">
               <div className="contact-links">
                 <a href="mailto:kevinaribi064@gmail.com">kevinaribi064@gmail.com</a>
                 <a href="tel:081294379119">0812 9437 9119</a>
