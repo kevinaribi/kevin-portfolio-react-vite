@@ -1195,3 +1195,47 @@ body.modal-open{
     text-align: center;
   }
 }
+
+/* Mobile hero name overflow fix */
+.hero-name,
+.hero h1,
+.hero-title{
+  max-width: 100%;
+}
+
+@media (max-width: 720px){
+  .hero-name,
+  .hero h1,
+  .hero-title{
+    width: 100%;
+    max-width: calc(100vw - 44px);
+    font-size: clamp(3.1rem, 15.2vw, 4.25rem);
+    line-height: .94;
+    letter-spacing: -0.055em;
+    white-space: normal;
+    overflow-wrap: normal;
+    text-wrap: balance;
+  }
+
+  .hero{
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 430px){
+  .hero-name,
+  .hero h1,
+  .hero-title{
+    font-size: clamp(2.85rem, 14.4vw, 3.65rem);
+    max-width: calc(100vw - 36px);
+  }
+}
+
+@media (max-width: 375px){
+  .hero-name,
+  .hero h1,
+  .hero-title{
+    font-size: clamp(2.55rem, 13.6vw, 3.25rem);
+    letter-spacing: -0.05em;
+  }
+}
